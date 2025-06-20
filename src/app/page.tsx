@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import Link from "next/link";
 
 export default function Home() {
   // Example video sources (replace with your own local/public videos)
@@ -33,10 +34,18 @@ export default function Home() {
       img: "/flute.jpg", // Place this image in public/
       desc: "A bamboo transverse flute, airy and melodic."
     },
+    {
+      label: "Play Sitar",
+      src: "/Sitar.mp4",
+      type: "video/mp4",
+      img: "/sitar.jpg", // Place this image in public/
+      desc: "A plucked string instrument with a long neck, known for its rich sound."
+    },
   ];
   // Refs for each video element
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [current, setCurrent] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
   const numVideos = videos.length;
 
   const goToPrev = () => setCurrent((prev) => (prev - 1 + numVideos) % numVideos);
@@ -44,6 +53,27 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-yellow-200 via-pink-200 to-blue-200 w-screen h-screen overflow-hidden">
+      {/* Burger Menu */}
+      <button
+        className="fixed top-4 left-4 z-50 p-3 rounded-full bg-pink-500 hover:bg-pink-600 text-white text-3xl shadow-lg border-4 border-pink-300 focus:outline-none"
+        onClick={() => setMenuOpen((open) => !open)}
+        aria-label="Open menu"
+      >
+        &#9776;
+      </button>
+      {menuOpen && (
+        <div className="fixed top-0 left-0 w-64 h-full bg-white shadow-2xl z-50 flex flex-col p-6 gap-6 border-r-4 border-pink-300 animate-slide-in">
+          <button
+            className="self-end text-2xl text-pink-500 hover:text-pink-700 font-bold mb-4"
+            onClick={() => setMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            &times;
+          </button>
+          <Link href="/" className="text-xl font-bold text-pink-700 hover:text-pink-900 py-2">Music Of India</Link>
+          <Link href="/folk-dances" className="text-xl font-bold text-pink-700 hover:text-pink-900 py-2">Classical Dances Of India</Link>
+        </div>
+      )}
       <h1 className="text-5xl font-extrabold mb-6 text-center w-full py-6 bg-white/80 shadow-lg z-10 text-pink-600 rounded-b-3xl tracking-wide drop-shadow-lg border-b-4 border-pink-300">
         Music Of India
       </h1>
